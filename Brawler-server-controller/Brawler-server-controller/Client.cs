@@ -24,7 +24,7 @@ namespace Brawler_server_controller
 
         public void SendPacket(Packet packet)
         {
-            this.Socket.SendTo(packet.Data, this.endPoint);
+            this.Socket.SendTo(packet.Data, packet.PacketSize, SocketFlags.None, this.endPoint);
         }
     }
 }

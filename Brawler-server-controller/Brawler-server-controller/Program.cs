@@ -16,13 +16,15 @@ namespace Brawler_server_controller
 
             while (command != "exit")
             {
-                command = Console.ReadLine();
-                if (command == "test") {
+                if (command != "")
+                {
                     byte[] data = new byte[512];
                     Packet packet = new Packet(data.Length, data, client.endPoint, Commands.Command);
+                    packet.Writer.Write(command);
                     client.SendPacket(packet);
                 }
-                Console.WriteLine("Command sent: " + command);
+
+                command = Console.ReadLine();
             }
         }
     }
