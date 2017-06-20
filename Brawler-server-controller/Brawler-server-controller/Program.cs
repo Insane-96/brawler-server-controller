@@ -8,6 +8,22 @@ namespace Brawler_server_controller
 {
     class Program
     {
+        public enum CommanderCmds : byte
+        {
+            Ping = 0,
+            ForceArena = 1,
+            ForceLobby = 2,
+            Kick = 3,
+        }
+
+        public static Dictionary<string, CommanderCmds> Commander = new Dictionary<string, CommanderCmds>()
+        {
+            { "ping", CommanderCmds.Ping },
+            { "forcearena", CommanderCmds.ForceArena },
+            { "forcelobby", CommanderCmds.ForceLobby },
+            { "kick", CommanderCmds.Kick },
+        };
+
         static void Main(string[] args)
         {
             Client client = new Client(args[0], int.Parse(args[1]));
@@ -20,7 +36,8 @@ namespace Brawler_server_controller
                 {
                     byte[] data = new byte[512];
                     Packet packet = new Packet(data.Length, data, client.endPoint, Commands.Command);
-                    packet.Writer.Write(command);
+                    byte cmd = (byte)Commander[command];
+                    packet.Writer.Write(cmd);
                     client.SendPacket(packet);
                 }
 
